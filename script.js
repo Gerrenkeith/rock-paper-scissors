@@ -12,64 +12,80 @@ function getComputerChoice(){
     }else{
         choice = "scissors"
     }
-
     return choice
 }
 
-function getHumanChoice() {
-    let choice = prompt("Type 'Rock', 'Paper', or 'Scissors'").toLowerCase();
-
-    if (choice === "rock" || choice === "paper" || choice === "scissors") {
-        return choice;
-    } else {
-        console.log("Invalid choice. Please enter Rock, Paper, or Scissors.");
-        return getHumanChoice(); // Re-prompt user if input is invalid
-    }
-}
-
-let round = 0
+let round = 1;
 let humanScore = 0;
 let computerScore = 0;
-let roundResult = " ";
 
-function playRound() {
-    while (humanScore < 2 && computerScore < 2) {  // Keep playing until someone reaches 2 points
+function playRound(humanChoice, computerChoice) {
+    let resultMessage = "";
+ 
+    // Check for game over
+if (humanScore === 2 && humanScore > computerScore) {
+            alert("You win the game!");
+            round = 0;
+            humanScore = 0;
+            computerScore = 0;
+        } else if (computerScore === 2 &&computerScore > humanScore) {
+            alert("Computer wins the game!");
+            round = 0;
+            humanScore = 0;
+            computerScore = 0;
+        }  // Reset the game
+
+    if (humanChoice === computerChoice) {
+        resultMessage = "It's a tie!";
         round++;
-        console.log(`Round ${round}`);
-
-        // Prompt user for their choice **each round**
-        let humanChoice = getHumanChoice();
-        let computerChoice = getComputerChoice();
-
-        console.log(`You chose: ${humanChoice}`);
-        console.log(`Computer chose: ${computerChoice}`);
-
-        if (humanChoice === computerChoice) {
-            console.log("It's a tie! Try again.");
-        } else if (
-            (humanChoice === "rock" && computerChoice === "scissors") ||
-            (humanChoice === "scissors" && computerChoice === "paper") ||
-            (humanChoice === "paper" && computerChoice === "rock")
-        ) {
-            humanScore++;
-            console.log("You win this round!");
-        } else {
-            computerScore++;
-            console.log("You lose this round!");
-        }
-
-        console.log(`Score: Human ${humanScore} - Computer ${computerScore}`);
-        console.log("-----------------------");
-    }
-
-    // Game over message
-    console.log("Game Over!");
-    if (humanScore === 2) {
-        console.log("🎉 Congratulations! You won the game! 🎉");
+    } else if (
+        (humanChoice === "rock" && computerChoice === "scissors") ||
+        (humanChoice === "scissors" && computerChoice === "paper") ||
+        (humanChoice === "paper" && computerChoice === "rock")
+    ) {
+        resultMessage = "You win!";
+        humanScore++;
+        round++;
     } else {
-        console.log("💻 The computer won! Better luck next time! 💻");
+        resultMessage = "Computer wins!";
+        computerScore++
+        round++;
     }
+
+    // Display results
+    document.getElementById("result").textContent = resultMessage;
+    document.getElementById("round").textContent = "Round: " + round;
+    document.getElementById("user-score").textContent = "Your Score: " + humanScore;
+    document.getElementById("computer-score").textContent = "Computer Score: " + computerScore;
+   
+    
+        
+       
+      
+    }
+
+
+
+
+function setupGame() {
+    const buttons = document.querySelectorAll("button");
+    const userChoiceElement = document.getElementById("user-choice");
+    const computerChoiceElement = document.getElementById("computer-choice");
+
+    buttons.forEach(button => {
+        button.addEventListener("click", function () {
+            const humanChoice = button.id; // Get the button id (rock, paper, scissors)
+            const computerChoice = getComputerChoice();
+
+            // Display choices
+            userChoiceElement.textContent = "You chose: " + humanChoice;
+            computerChoiceElement.textContent = "Computer chose: " + computerChoice;
+
+            // Play the round
+            playRound(humanChoice, computerChoice);
+        });
+    });
 }
 
-
-playRound()
+// Initialize the game
+setupGame();
