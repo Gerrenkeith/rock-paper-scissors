@@ -22,18 +22,18 @@ let computerScore = 0;
 function playRound(humanChoice, computerChoice) {
     let resultMessage = "";
  
-    // Check for game over
-if (humanScore === 2 && humanScore > computerScore) {
+  
+if (humanScore === 3 && humanScore > computerScore) {
             alert("You win the game!");
             round = 0;
             humanScore = 0;
             computerScore = 0;
-        } else if (computerScore === 2 &&computerScore > humanScore) {
+        } else if (computerScore === 3 &&computerScore > humanScore) {
             alert("Computer wins the game!");
             round = 0;
             humanScore = 0;
             computerScore = 0;
-        }  // Reset the game
+        }  
 
     if (humanChoice === computerChoice) {
         resultMessage = "It's a tie!";
@@ -52,7 +52,7 @@ if (humanScore === 2 && humanScore > computerScore) {
         round++;
     }
 
-    // Display results
+
     document.getElementById("result").textContent = resultMessage;
     document.getElementById("round").textContent = "Round: " + round;
     document.getElementById("user-score").textContent = "Your Score: " + humanScore;
@@ -67,25 +67,25 @@ if (humanScore === 2 && humanScore > computerScore) {
 
 
 
-function setupGame() {
+function playGame() {
     const buttons = document.querySelectorAll("button");
     const userChoiceElement = document.getElementById("user-choice");
     const computerChoiceElement = document.getElementById("computer-choice");
 
     buttons.forEach(button => {
         button.addEventListener("click", function () {
-            const humanChoice = button.id; // Get the button id (rock, paper, scissors)
+            const humanChoice = button.id; 
             const computerChoice = getComputerChoice();
 
-            // Display choices
+        
             userChoiceElement.textContent = "You chose: " + humanChoice;
             computerChoiceElement.textContent = "Computer chose: " + computerChoice;
 
-            // Play the round
+        
             playRound(humanChoice, computerChoice);
         });
     });
 }
 
-// Initialize the game
-setupGame();
+
+playGame();
